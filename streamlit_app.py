@@ -90,7 +90,7 @@ with c1:
     fig = px.bar(g, x="Geography", y="Churn", text="Churn", title="Churn rate by country",
                  labels={"Churn": "Churn rate (%)"})
     fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 with c2:
     g = fdf.groupby("AgeBand", observed=True)["Churn"].mean().mul(100).round(2).reset_index()
     order = ["<30", "30-40", "40-50", "50-60", "60+"]
@@ -99,7 +99,7 @@ with c2:
     fig = px.bar(g, x="AgeBand", y="Churn", text="Churn", title="Churn rate by age band",
                  labels={"AgeBand": "", "Churn": "Churn rate (%)"})
     fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 # ---------------------------------------------------------------- charts row 2
 c3, c4 = st.columns(2)
@@ -110,13 +110,13 @@ with c3:
                  title="Churn rate by products held (2 = loyalty sweet spot)",
                  labels={"NumOfProducts": "Products held", "Churn": "Churn rate (%)"})
     fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 with c4:
     fig = px.histogram(
         fdf, x="Balance", color=fdf["Churn"].map({0: "Retained", 1: "Exited"}),
         nbins=40, barmode="overlay", opacity=0.6,
         title="Balance distribution: exited vs retained", labels={"color": "Outcome"})
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 # ---------------------------------------------------------------- model: feature importance
 st.subheader("🤖 What drives churn? (Random Forest)")
@@ -126,7 +126,7 @@ imp = (pd.DataFrame({"feature": features, "importance": model.feature_importance
 fig = px.bar(imp, x="importance", y="feature", orientation="h",
              title="Top churn drivers", labels={"feature": ""})
 fig.update_layout(yaxis={"categoryorder": "total ascending"})
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width="stretch")
 
 # ---------------------------------------------------------------- at-risk explorer
 st.subheader("🚨 At-risk customer explorer")
@@ -144,7 +144,7 @@ scored = scored.sort_values("ChurnProbability", ascending=False)
 threshold = st.slider("Minimum churn probability (%)", 0, 100, 50)
 risky = scored[scored["ChurnProbability"] >= threshold]
 st.write(f"**{len(risky):,} customers** at or above {threshold}% churn probability")
-st.dataframe(risky.head(200), use_container_width=True)
+st.dataframe(risky.head(200), width="stretch")
 
 st.divider()
 st.caption("Data: public Kaggle Bank Customer Churn dataset · "

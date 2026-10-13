@@ -1,6 +1,7 @@
-# Pinned for reproducible Streamlit Cloud deploys (Python 3.12)
-streamlit==1.39.0
-pandas==2.2.3
-numpy==1.26.4
-plotly==5.24.1
-scikit-learn==1.5.2
+# Pinned dependencies for the Streamlit dashboard (streamlit_app.py).
+# Versions chosen for Streamlit Cloud (Python 3.14): all ship wheels, no source builds.
+numpy==2.5.4
+pandas==3.0.6
+plotly==7.1.0
+scikit-learn==1.9.1
+streamlit==1.65.0
